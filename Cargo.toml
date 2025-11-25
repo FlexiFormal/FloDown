@@ -35,7 +35,7 @@ url = "2.5"
 parser-utils = { path = "parser-utils"}
 flodown = { path = "flodown"}
 markdown-lite = { path = "markdown-lite"}
-ftml-uris = { path = "../FTML/uris", features = ["interned"] }
+ftml-uris = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
 
 
 [workspace.dependencies.serde]
