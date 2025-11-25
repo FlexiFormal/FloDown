@@ -1,0 +1,18 @@
+[package]
+name = "parser-utils"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[lints]
+workspace = true
+
+[features]
+## Adds serde
+serde = ["dep:serde"]
+
+[dependencies]
+document-features = { workspace = true }
+serde = {workspace = true,optional = true}

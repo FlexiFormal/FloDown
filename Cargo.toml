@@ -1,0 +1,91 @@
+[workspace]
+members = [
+    "flodown",
+    "markdown-lite",
+    "parser-utils",
+    "test",
+]
+exclude = ["test"]
+resolver = "2"
+
+[workspace.metadata.docs.rs]
+all-features = true
+rustdoc-args = [
+    "--cfg",
+    "docsrs",
+    "--html-in-header",
+    "resources/katex-header.html",
+    "--html-in-header",
+    "resources/flams-docs.html",
+    "--enable-index-page",
+    "-Zunstable-options",
+    "--generate-link-to-definition",
+]
+
+[workspace.dependencies]
+document-features = "0.2"
+serde-value = "0.7"
+serde_yml = "0.0.12"
+thiserror = "2"
+#toml = "0.9"
+tracing = "0.1"
+html-escape = "0.2"
+url = "2.5"
+
+parser-utils = { path = "parser-utils"}
+flodown = { path = "flodown"}
+markdown-lite = { path = "markdown-lite"}
+ftml-uris = { path = "../FTML/uris", features = ["interned"] }
+
+
+[workspace.dependencies.serde]
+version = "1"
+features = [
+    "derive",
+    "rc",
+]
+
+[workspace.dependencies.smallvec]
+version = "2.0.0-alpha.11"
+
+[workspace.dependencies.tracing-subscriber]
+version = "0.3"
+features = [
+    "smallvec",
+    "parking_lot",
+    "json",
+]
+
+[workspace.lints.clippy]
+unwrap_used = "warn"
+
+[workspace.lints.clippy.enum_glob_use]
+level = "allow"
+priority = 0
+
+[workspace.lints.clippy.module_name_repetitions]
+level = "allow"
+priority = 0
+
+[workspace.lints.clippy.nursery]
+level = "warn"
+priority = 2
+
+[workspace.lints.clippy.pedantic]
+level = "warn"
+priority = 1
+
+[workspace.lints.clippy.redundant_else]
+level = "warn"
+priority = 1
+
+[workspace.lints.clippy.similar_names]
+level = "warn"
+priority = 1
+
+[workspace.lints.clippy.too_many_lines]
+level = "warn"
+priority = 1
+
+[profile.bench]
+strip = "none"

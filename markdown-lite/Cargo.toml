@@ -1,0 +1,25 @@
+[package]
+name = "markdown-lite"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[lints]
+workspace = true
+
+[features]
+# ## enables frontmatter yaml
+frontmatter = ["dep:serde","dep:serde_yml","dep:serde-value"]
+
+[dependencies]
+document-features = { workspace = true }
+parser-utils = {workspace = true}
+smallvec = {workspace = true}
+html-escape = {workspace = true}
+url = {workspace = true}
+
+serde = {workspace = true,optional=true}
+serde_yml = {workspace = true,optional=true}
+serde-value = {workspace = true, optional=true}

@@ -1,0 +1,19 @@
+[package]
+name = "flodown"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[lints]
+workspace = true
+
+[features]
+
+[dependencies]
+document-features = { workspace = true }
+
+markdown-lite = { workspace = true, features=["frontmatter"]}
+serde-value = {workspace = true}
+ftml-uris = {workspace = true}
