@@ -2,21 +2,21 @@ use smallvec::SmallVec;
 
 use crate::tokenizer::{MarkdownToken, MarkdownTokenizer};
 
-static PREAMBLE: &str = r"
+pub static LATEX_PREAMBLE: &str = r"
 \usepackage{soul,listings,hyperref}
 \usepackage[normalem]{ulem}
 ";
 
 pub trait Options {
     #[cfg(feature = "frontmatter")]
-    fn frontmatter(&mut self, frontmatter: serde_value::Value, out: &mut String) {}
-    fn inline_custom(&mut self, label: &str, arguments: &str, out: &mut String) -> bool {
+    fn frontmatter(&mut self, _frontmatter: serde_value::Value, _out: &mut String) {}
+    fn inline_custom(&mut self, _label: &str, _arguments: &str, _out: &mut String) -> bool {
         false
     }
-    fn custom_block_start(&mut self, label: &str, arguments: &str, out: &mut String) -> bool {
+    fn custom_block_start(&mut self, _label: &str, _arguments: &str, _out: &mut String) -> bool {
         false
     }
-    fn custom_block_end(&mut self, label: &str, out: &mut String) -> bool {
+    fn custom_block_end(&mut self, _label: &str, _out: &mut String) -> bool {
         false
     }
 }
@@ -36,14 +36,22 @@ pub fn to_latex(source: &str) -> String {
 
 pub fn to_latex_with_options<'s>(source: &'s str, options: &'s mut dyn Options) -> String {
     let mut out = String::with_capacity(source.len());
+    to_latex_with_options_and_string(source, &mut out, options);
+    out
+}
+
+pub fn to_latex_with_options_and_string<'s>(
+    source: &'s str,
+    out: &mut String,
+    options: &'s mut dyn Options,
+) {
     LaTeXConverter {
         tokenizer: MarkdownTokenizer::new(source),
         states: SmallVec::new(),
-        out: &mut out,
+        out,
         options: Some(options),
     }
     .run();
-    out
 }
 
 pub fn inline_latex(md: &str, out: &mut String) {
@@ -367,7 +375,6 @@ impl LaTeXConverter<'_> {
     }
 
     fn close(out: &mut String, state: ConverterState, options: &mut Option<&mut dyn Options>) {
-        use std::fmt::Write;
         match state {
             ConverterState::Emph(_) => out.push('}'),
             ConverterState::Strong(_) => out.push('}'),
@@ -409,15 +416,4 @@ enum ConverterState<'a> {
     OrderedList(u8),
     InLink,
     CustomBlock(u8, &'a str),
-}
-
-const fn heading(u: u8) -> &'static str {
-    match u {
-        0 => "h1",
-        1 => "h2",
-        2 => "h3",
-        3 => "h4",
-        4 => "h5",
-        _ => "h6",
-    }
 }
