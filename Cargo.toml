@@ -57,12 +57,12 @@ parser-utils = { path = "parser-utils"}
 flodown = { path = "flodown"}
 markdown-lite = { path = "markdown-lite"}
 
-ftml-uris = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
-ftml-ontology = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
-ftml-parser = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
-ftml-components = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
-ftml-dom = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
-ftml-viewer = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
+ftml-uris = { git = "https://github.com/FlexiFormal/FTML" }
+ftml-ontology = { git = "https://github.com/FlexiFormal/FTML" }
+ftml-parser = { git = "https://github.com/FlexiFormal/FTML" }
+ftml-components = { git = "https://github.com/FlexiFormal/FTML" }
+ftml-dom = { git = "https://github.com/FlexiFormal/FTML" }
+ftml-viewer = { git = "https://github.com/FlexiFormal/FTML" }
 
 #ftml-uris = {path="../FTML/uris", features = ["interned"]}
 #ftml-ontology = {path="../FTML/ontology"}
