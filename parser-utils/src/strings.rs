@@ -41,38 +41,6 @@ impl<'a, P: SourcePos> ParseStr<'a, P> {
         std::mem::take(&mut self.input)
     }
 
-    /*
-    pub fn read_until_is_with_brackets(
-        &mut self,
-        mut is_open: impl FnMut(char) -> bool,
-        mut is_close: impl FnMut(char) -> bool,
-        mut pred: impl FnMut(&'a str) -> bool,
-    ) -> &'a str {
-        let mut depth = 0;
-        let mut curr = self.input;
-
-        while !curr.is_empty() {
-            // SAFETY: !curr.is_empty()
-            let head = unsafe { curr.chars().next().unwrap_unchecked() };
-            if is_close(head) && depth > 0 {
-                depth -= 1;
-            } else if is_open(head) {
-                depth += 1;
-            } else if depth == 0 && pred(curr) {
-                let ret = &self.input[..self.input.len() - curr.len()];
-                self.input = curr;
-                self.pos.update_str_maybe_newline(ret);
-                return ret;
-            }
-            if let Some(next) = curr.chars().next() {
-                curr = &curr[next.len_utf8()..];
-            }
-        }
-        self.pos.update_str_maybe_newline(self.input);
-        std::mem::take(&mut self.input)
-    }
-     */
-
     pub fn read_until_inclusive(&mut self, pred: impl FnMut(char) -> bool) -> &'a str {
         let i = self.input.find(pred).unwrap_or(self.input.len());
         let (l, r) = self.input.split_at(i + 1);

@@ -23,7 +23,7 @@ enum TokenizerState {
     Top,
     Inline,
     InBlockQuote,
-    InDefinition,
+    // InDefinition,
     // InTaskList(u8),
     InUnnumberedList,
     InNumberedList,
@@ -47,8 +47,8 @@ pub enum MarkdownToken<'a, Pos: SourcePos> {
     InlineMath(&'a str, SourceRange<Pos>),
     InlineCode(&'a str, SourceRange<Pos>),
     ThematicBreak(SourceRange<Pos>),
-    FootnoteDefinition(&'a str, SourceRange<Pos>),
-    Definition(&'a str, SourceRange<Pos>),
+    //FootnoteDefinition(&'a str, SourceRange<Pos>),
+    //Definition(&'a str, SourceRange<Pos>),
     /*TaskList {
         char: u8,
         indent: u8,
@@ -66,7 +66,6 @@ pub enum MarkdownToken<'a, Pos: SourcePos> {
     NumberedListItem(u8, Pos),
     //ListEnd(Pos),
     Heading(u8, SourceRange<Pos>),
-    TableStart(Pos),
     Strong(u8, Pos),
     Emph(u8, Pos),
     Subscript(Pos),
@@ -89,6 +88,7 @@ pub enum MarkdownToken<'a, Pos: SourcePos> {
         range: SourceRange<Pos>,
     },
     CustomBlockEnd(u8, Pos),
+    TableStart(Pos),
 }
 
 pub struct MarkdownTokenizer<'a, Pos: SourcePos> {
@@ -547,6 +547,7 @@ impl<'a, Pos: SourcePos> MarkdownTokenizer<'a, Pos> {
         MarkdownToken::ThematicBreak(SourceRange { start, end })
     }
 
+    /*
     fn start_definition(&mut self, start: Pos) -> MarkdownToken<'a, Pos> {
         let _ = self.source.pop_head();
         let is_footnote = self.source.starts_with('^') && {
@@ -565,6 +566,7 @@ impl<'a, Pos: SourcePos> MarkdownTokenizer<'a, Pos> {
             MarkdownToken::Definition(lbl, range)
         }
     }
+     */
 
     // precondition: starts with "$$"
     fn block_math(&mut self, start: Pos) -> MarkdownToken<'a, Pos> {
@@ -724,7 +726,7 @@ fn is_custom(rest: &str) -> bool {
     let label = ps.read_until(|c| c == ']');
     ps.starts_with_str("](") && !label.trim().contains(['\r', ' ', '\n', '\t'])
 }
-
+/*
 fn is_footnote(source: &[u8]) -> bool {
     let Some(i) = source.iter().position(|b| *b == b']') else {
         return false;
@@ -736,6 +738,7 @@ fn is_footnote(source: &[u8]) -> bool {
         *sec == b' ' || *sec == b'\t'
     }
 }
+ */
 
 fn is_table(source: &[u8]) -> bool {
     let rest = source;

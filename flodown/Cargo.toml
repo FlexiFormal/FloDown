@@ -18,3 +18,4 @@ markdown-lite = { workspace = true, features=["frontmatter"]}
 serde-value = {workspace = true}
 ftml-uris = {workspace = true}
 rustc-hash = {workspace = true}
+parser-utils = {workspace=true}

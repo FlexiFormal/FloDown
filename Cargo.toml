@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "flodown",
+    "flodown", "flodown-ir",
     "markdown-lite",
     "parser-utils",
     "test",
@@ -22,6 +22,16 @@ rustdoc-args = [
     "--generate-link-to-definition",
 ]
 
+[profile.release]
+panic = "abort"
+codegen-units = 1
+overflow-checks = false
+split-debuginfo = "packed"
+strip = "symbols"
+opt-level = 'z'
+lto = true
+incremental = true
+
 [workspace.dependencies]
 document-features = "0.2"
 serde-value = "0.7"
@@ -32,30 +42,28 @@ tracing = "0.1"
 html-escape = "0.2"
 url = "2.5"
 rustc-hash = "2"
+serde = {version="1", features=["derive","rc"]}
+smallvec = "2.0.0-alpha.10"
+tracing-subscriber = {version = "0.3", features = ["smallvec","parking_lot","json"]}
+either= "1"
+leptos = "0.8"
+wasm-bindgen = "^0.2.106"
+tsify = { version = "0.5", features = ["js"] }
+parking_lot = "0.12"
 
 parser-utils = { path = "parser-utils"}
 flodown = { path = "flodown"}
 markdown-lite = { path = "markdown-lite"}
-ftml-uris = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
 
-
-[workspace.dependencies.serde]
-version = "1"
-features = [
-    "derive",
-    "rc",
-]
-
-[workspace.dependencies.smallvec]
-version = "2.0.0-alpha.10"
-
-[workspace.dependencies.tracing-subscriber]
-version = "0.3"
-features = [
-    "smallvec",
-    "parking_lot",
-    "json",
-]
+#ftml-uris = { git = "https://github.com/FlexiFormal/FTML", features = ["interned"] }
+ftml-uris = {path="../FTML/uris"}
+ftml-ontology = {path="../FTML/ontology"}
+ftml-parser = {path="../FTML/parser"}
+ftml-components = {path="../FTML/components"}
+ftml-dom = {path="../FTML/dom"}
+ftml-viewer = {path="../FTML/viewer"}
+console_error_panic_hook = "0.1"
+tracing-wasm = { version = "0.2" }
 
 [workspace.lints.clippy]
 unwrap_used = "warn"
